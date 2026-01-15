@@ -47,7 +47,7 @@ SpringFileWriteRCE为漏洞环境，包含upload和aspectJ反序列化场景
 
 当前我的jdk路径：/usr/lib/jvm/jdk1.8.0_201/
 
-![image-20260115153911229](C:\Users\13903\AppData\Roaming\Typora\typora-user-images\image-20260115153911229.png)
+<img width="1588" height="481" alt="image-20260115153911229" src="https://github.com/user-attachments/assets/d5c846ca-77a2-4478-b621-341b1a168a0f" />
 
 用upload.py上传提前打包好的charsets.jar文件
 
@@ -69,8 +69,8 @@ Host: 192.168.239.139:8081
 Accept: text/html;charset=GBK
 ```
 
-![image-20260115155047491](C:\Users\13903\AppData\Roaming\Typora\typora-user-images\image-20260115155047491.png)
+<img width="1872" height="824" alt="image-20260115155047491" src="https://github.com/user-attachments/assets/77fb1515-f482-4f7a-940d-8278d2c75537" />
 
 此时哥斯拉连接
 
-![image-20260115155112622](C:\Users\13903\AppData\Roaming\Typora\typora-user-images\image-20260115155112622.png)
+<img width="612" height="644" alt="image-20260115155112622" src="https://github.com/user-attachments/assets/2ad270af-a061-404c-a8a1-0bbe11a23122" />
