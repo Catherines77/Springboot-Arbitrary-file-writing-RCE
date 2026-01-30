@@ -50,6 +50,7 @@ SpringFileWriteRCE为漏洞环境，包含upload和aspectJ反序列化场景
 <img width="1588" height="481" alt="image-20260115153911229" src="https://github.com/user-attachments/assets/d5c846ca-77a2-4478-b621-341b1a168a0f" />
 
 先在容器下执行 mkdir /tmp/uploads
+
 然后用upload.py上传提前打包好的charsets.jar文件
 
 打包流程：
@@ -75,4 +76,5 @@ Accept: text/html;charset=GBK
 此时哥斯拉连接
 
 <img width="612" height="644" alt="image-20260115155112622" src="https://github.com/user-attachments/assets/2ad270af-a061-404c-a8a1-0bbe11a23122" />
+
 
