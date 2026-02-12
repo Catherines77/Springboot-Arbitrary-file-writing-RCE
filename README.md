@@ -1,6 +1,6 @@
 # Springboot任意文件写入RCE探索
 
-SpringFileWriteRCE为漏洞环境，包含upload, fastjson和aspectJ反序列化场景，启动服务前先创建uploads目录 mkdir /tmp/uploads
+SpringFileWriteRCE为漏洞环境，使用jdk8启动，包含upload, fastjson和aspectJ反序列化场景，启动服务前先创建uploads目录 mkdir /tmp/uploads
 
 ## charsets.jar
 
@@ -166,4 +166,5 @@ print(response.text)
 哥斯拉连接
 
 <img width="1055" height="683" alt="image" src="https://github.com/user-attachments/assets/be2918f0-8d96-4956-8f06-d9060b8658f6" />
+
 
