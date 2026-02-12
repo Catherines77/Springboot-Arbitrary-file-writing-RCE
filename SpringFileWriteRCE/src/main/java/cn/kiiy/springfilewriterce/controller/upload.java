@@ -14,7 +14,7 @@ public class upload {
     public String upload(@RequestParam("file") MultipartFile file) throws IOException {
         // 漏洞点：直接使用了用户可控的 filename，未过滤 ../
         String fileName = file.getOriginalFilename();
-        File dest = new File("D:/idea/project/SpringFileWriteRCE/uploads/" + fileName);
+        File dest = new File("/tmp/uploads/" + fileName);
         if (!dest.getParentFile().exists()) dest.getParentFile().mkdirs();
         file.transferTo(dest);
         return "Upload Success to: " + dest.getAbsolutePath();
