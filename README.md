@@ -2,6 +2,8 @@
 
 SpringFileWriteRCE为漏洞环境，使用jdk8启动，包含upload, fastjson和aspectJ反序列化场景，启动服务前先创建uploads目录 mkdir /tmp/uploads
 
+其他细节见：https://kiiy.cn/web/javasec/springboot%e4%bb%bb%e6%84%8f%e6%96%87%e4%bb%b6%e5%86%99%e5%85%a5rce%e6%8e%a2%e7%b4%a2.html
+
 ## charsets.jar
 
 **概述**
@@ -206,3 +208,4 @@ jar -uvf dnsns.jar sun/net/spi/nameservice/dns/DNSNameServiceDescriptor.class
 ```json
 {"@type":"sun.net.spi.nameservice.dns.DNSNameServiceDescriptor","javaCode":"xxx"}
 ```
+
