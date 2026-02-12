@@ -91,7 +91,7 @@ Accept: text/html;charset=GBK
 
 https://flowerwind.github.io/2025/02/28/%E5%88%86%E4%BA%AB%E4%B8%80%E6%AC%A1%E7%BB%84%E5%90%88%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E6%8B%BF%E4%B8%8B%E7%9B%AE%E6%A0%87/
 
-3.将fastjson-1.2.83.jar和正常的nashorn.jar包放在解压出来的nashorn目录下，用于编译Shell.java
+3.将fastjson-1.2.83.jar（可以根据目标环境来，不一定是1.2.83，不需要开启autotype）和正常的nashorn.jar包放在解压出来的nashorn目录下，用于编译Shell.java
 
 ```
 nashorn
@@ -166,3 +166,4 @@ print(response.text)
 哥斯拉连接
 
 <img width="1055" height="683" alt="image" src="https://github.com/user-attachments/assets/be2918f0-8d96-4956-8f06-d9060b8658f6" />
+
